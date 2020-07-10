@@ -4,7 +4,7 @@ function dbconnect(){
 
 try
 {
-$bdd= new PDO('mysql:host=localhost;dbname=instant_p;charset=utf8','ulrichwi','RomannKeke31');
+$bdd= new PDO('mysql:host=localhost;dbname=*;charset=utf8','*','*');
 }
 catch (Exception $e){
     die('Erreur:'. $e -> getMessage());
