@@ -1,0 +1,49 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>  
+<?php else: ?>
+
+<section id="options-gen">
+<h2><i class="fas fa-cogs"></i> Configuration Options Génèrales</h2>
+
+<form action="index.php?action=config_general" method="POST">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Générale</a></li>
+      <li><a href="#tabs-2">Administration</a></li>
+      <li><a href="#tabs-3">Référencement</a></li>
+    </ul>
+      
+      <div id="tabs-1">
+      
+  	    <label for="nb_article_home">Nombre d'article sur la page d'accueil :</label>
+        <input id="nb_article_home" type="text" name="nb_article_home" value="<?= $article_par_page['setting_value'] ?>">
+  	  
+        <label for="nb_article_categ">Nombre d'article sur page Categorie:</label>
+        <input id="nb_article_categ" type="text" name="nb_article_categ" value="<?= $article_par_categorie['setting_value'] ?>">
+	  
+      </div>
+	
+      <div id="tabs-2">
+        
+    	  <label for="nb_comment_admin">(Admin) Nombre de commentaires par page :</label>
+        <input id="nb_comment_admin" type="text" name="nb_comment_admin" value="<?= $nb_comments_admin['setting_value'] ?>">
+
+      </div>
+	
+      <div id="tabs-3">
+        
+        <h2>Balise référencement : </h2>
+        <label for="title_ref_gen">Balise Titre :</label>
+        <input id="title_ref_gen" type="text" value="<?= $title_ref_gen['setting_value'] ?>" name="title_ref_gen">
+        
+        <label for="story">Balise Description :</label>
+        <textarea id="story" name="desc_ref_gen" rows="5" cols="33"><?= $desc_ref_gen['setting_value'] ?></textarea>
+
+      </div>
+
+    <button class="record" type="submit">Enregistrer</button>
+  </div>  
+</form>
+
+</section>
+<?php endif; ?>

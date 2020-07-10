@@ -1,0 +1,8 @@
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+<?php endif; ?>
+
+<section id="pages">
+	<h1><?= $page['nom'] ?></h1>
+	<?= html_entity_decode($page['contenu']) ?>
+</section>

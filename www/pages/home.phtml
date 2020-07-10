@@ -1,0 +1,73 @@
+<?php if (!isset($_GET['page']) or $_GET['page'] <= 1) : ?>
+
+<!-- Slider Grand Format !-->
+<div class="col-xs-12">
+  <div class="blog-carousel">
+    <div id="instantCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+      <div class="carousel-inner">
+        <?php foreach ($last_articles as $article): ?>
+          <?php if ($article === reset($last_articles)): ?>
+            <div class="item active">
+          <?php else: ?>
+                <div class="item">
+          <?php endif; ?>
+                <div class="single-carousel" style="background-image:url('<?= $article['header_illustra'] ?>');-webkit-background-size: cover;background-size: cover;background-repeat: no-repeat;background-position: center;">
+                  <div class="slide-component text-center">
+                    <a href="<?= DisplayCategForArticle($article['id']) ?>/">
+                      <span class="tag-categ"><?= $article['nom_categ'] ?></span>
+                    </a> 
+                    <h2 class="slide-title"><a href=""><?= $article['titre'] ?></a></h2>
+                    <p class="slide-date">Date de création : <?= date('d-m-Y', strtotime($article['date'])); ?></p>
+                    <a class="slide-read-more" href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>">LIRE L'ARTICLE</a>
+                  </div>
+              </div>
+              </div>
+              <?php endforeach; ?>
+              <!-- Fleche Naviguation gauche/droite -->
+              <a class="left carousel-control" href="#instantCarousel" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+              <a class="right carousel-control" href="#instantCarousel" data-slide="next"><i class="fa fa-angle-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin Slider Grand Format !-->
+
+  <div id="entete-bloc-liste" class="col-lg-12 col-sm-12 hidden-xs">
+    <span class="">Les derniers Articles : <i class="fas fa-sort-amount-down"></i></span>
+    <span id="date_heure"></span>
+    <a href="#" id="display-mode">Cacher la sidebar <i class="fas fa-list"></i></a>
+  </div>
+
+      <?php endif; ?>
+<div class="row">
+      <section id="liste-articles" class="col-md-8">
+       <h2><span>Liste des articles</span></h2>
+      <?php foreach ($articles as $article) : ?>
+          <article class="bloc-article animated fadeInUp delay-0s">                  
+             <a href="<?= DisplayCategForArticle($article['id']) ?>/"><span class="tag-categ"><?= $article['nom_categ'] ?></span></a> 
+              <h3 class="post-title">
+              <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>"><?= $article['titre'] ?></a></h3>
+                               
+                <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>">
+                <img src="<?= $article['illustration'] ?>" alt="<?= $article['alt_illustration'] ?>"></a>
+                <p class="article-resume"><?= html_entity_decode($article['resume']) ?></p>
+
+            
+                <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>" class="button">Lire la suite</a>
+
+              <div class="details-article">
+                  <span><i class="fas fa-pencil-alt"></i> Ecrit par <?= $article['nick'] ?></span>
+                  <span><i class="far fa-clock"></i>le <?= $article['date'] ?></span>
+                  <span>Commentaires ( <strong><?= $article['nb_commentaires'] ?></strong> )</span>
+              </div>
+          </article>
+      <?php endforeach; ?>
+          
+      </section>
+
+<!-- Appel de la slidebar !-->
+<?php require "www/bloc/sidebar.phtml"; ?>
+</div><!-- Fin class row !-->
+
+<!-- Pagination des articles !-->
+<?= paginationDisplay($pagination,'accueil/'); ?>

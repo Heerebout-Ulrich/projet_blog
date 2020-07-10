@@ -1,0 +1,17 @@
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+<?php endif; ?>
+
+<form action="index.php?action=contact&message" method="POST" id="contact-form">
+    <label for="nom" class="hidden">Votre nom</label>                         
+	<input type="text" name="nom" class="username" placeholder="Votre nom">
+	
+	<label for="email" class="hidden">Votre Email</label>   
+	<input id="email" type="email" name="email" class="email" placeholder="Votre Email *">
+	
+	<label for="message" class="hidden">Votre message</label>   
+	<textarea rows=10 name="message" placeholder="Votre message"></textarea>
+	
+	<button class="theme-btn" type="submit" id="submit" name="submit-form">Envoyer</button>
+                                
+</form>

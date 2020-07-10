@@ -1,0 +1,102 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>  
+<?php endif; ?>   
+
+<section id="gestion-pages">
+
+<?php if(isset($_GET['delete']) || isset($_GET['message'])): ?>
+<?= $message ?>
+
+<?php elseif(isset($_GET['add'])): ?>
+
+<form class="form-article" action="index.php?action=ajouter_page&message" method="POST">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Général</a></li>
+      <li><a href="#tabs-2">Référencement</a></li>
+    </ul>
+    <div id="tabs-1">
+      <h2><i class="fas fa-feather"></i> Creer une page</h2>
+      <label>Titre de l'article :</label>
+      <input type="text" name="titre">
+      <label>Contenu de l'article :</label>
+      <textarea id="mytextarea" name="contenu"></textarea>
+    </div>
+    <div id="tabs-2">
+      <label>Titre :</label>
+      <input type="text" name="titre-ref">
+      <label>Description :</label>
+      <textarea class="tinymce" name="description-ref" rows="5" cols="33"></textarea>
+    </div>
+    <button type="submit" class="record">Soumettre</button>
+  </div>
+</form>
+
+
+<?php elseif(isset($_GET['id_page'])): ?>
+
+<form class="form-article" action="index.php?action=editer_page&id=<?= $infosp['id'] ?>&message" method="POST">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Général</a></li>
+      <li><a href="#tabs-2">Référencement</a></li>
+    </ul>
+    <div id="tabs-1">
+      <h2><i class="fas fa-feather"></i> Editer une page</h2>
+      
+      <label for="titre-page">Titre de la page :</label>
+      <input id="titre-page" type="text" name="titre" value="<?= $infosp['nom'] ?>">
+	  
+      <label for="page">Slug :</label>
+      <input id="page" type="text" name="page" value="<?= htmlspecialchars($infosp['page']) ?>">
+	  
+      <label for="mytextarea">Contenu de l'article :</label>
+      <textarea id="mytextarea" name="contenu"><?= html_entity_decode($infosp['contenu']) ?></textarea>
+	  
+    </div>
+    <div id="tabs-2">
+     
+	   <label for="titre-ref">Titre :</label>
+     <input id="titre-ref" type="text" name="titre-ref" value="<?= htmlspecialchars($infosp['titre_ref']) ?>">
+      
+	   <label for="description">Description :</label>
+     <textarea id="description" class="tinymce" name="description-ref" rows="5" cols="33"><?= htmlspecialchars($infosp['desc_ref']) ?></textarea>
+	  
+    </div>
+    <button type="submit" class="record">Soumettre</button>
+  </div>
+</form>
+
+
+<?php else: ?>
+
+   <h2>Gestion des pages</h2>
+
+<table class="table table-bordered">
+     <thead>
+       <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Slug</th>
+          <th class="text-center">Apercu</th>
+          <th class="text-center">Editer</th>
+          <th class="text-center">Supprimer</th>
+       </tr>
+     </thead>
+     <tbody>
+       <?php foreach($pages as $page): ?>
+        <tr>
+            <td class="col-md-1"><?= $page['id'] ?></td>
+            <td class="col-md-8"><?= $page['nom'] ?></td>
+            <td class="col-md-8"><?= $page['page'] ?></td>
+            <td class="col-md-1 text-center"><a href="index.php?action=page&id=<?= $page['id'] ?>"><i class="fas fa-eye"></i></a></td>
+            <td class="col-md-1 text-center"><a href="index.php?action=editer_page&id_page=<?= $page['id'] ?>"><i class="fas fa-edit"></a></i></td>
+            <td class="col-md-1 text-center"><a href="index.php?action=effacer_page&delete=<?= $page['id'] ?>"><i class="fas fa-trash-alt"></i></a></td>
+        <tr>
+        <?php endforeach; ?>
+     </tbody>
+ </table>
+
+<?php endif; ?>
+
+</section>

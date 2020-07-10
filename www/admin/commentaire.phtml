@@ -1,0 +1,165 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>  
+<?php endif; ?>
+
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+<?php else: ?>
+
+<section id="gestion-commentaires">
+
+<h2><i class="fas fa-cogs"></i> Gestion des commentaires</h2>
+
+<a href="index.php?action=gestion_commentaires_standby">
+  <button class="btn btn-warning"><i class="fas fa-hourglass-half"></i> En attente de validation</button>
+</a>
+<a href="index.php?action=gestion_commentaires_valide">
+  <button class="btn btn-success"><i class="fas fa-check"></i> Tous les commentaires validés</button>
+</a>
+
+<?php if($_GET['action'] == "gestion_commentaires_standby" AND !isset($_GET['message'])): ?>
+
+<form class="form-statut-ok" action="index.php?action=gestion_commentaires_standby&message" method="POST">
+
+<section id="commentaires-standby">
+
+<h2>En attente de validation : </h2>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Illustration</th>
+          <th>Article</th>
+          <th>Message</th>
+          <th>Auteur</th>
+          <th class="text-center">Statut</th>
+          <th class="text-center">Visualiser</th>
+          <th class="text-center">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+  <?php $nb = -1; ?>
+  <?php foreach($commentsstandby as $commentaire): ?> 
+          <tr>
+            <td class="col-md-1"><input class="checkbox media" type="checkbox" name="check[]" value="<?= $commentaire['id'] ?>"></td>
+            <td class="col-md-1 col-xs-1"><img class="media-object img-rounded img-responsive" src="<?= $commentaire['illustration'] ?>" alt="Illustration de <?= $commentaire['titre'] ?>"></td>
+            <td class="col-md-3 col-xs-3"><?= $commentaire['titre'] ?></td>
+            <td class="col-md-3 col-xs-3"><?= substr(htmlspecialchars($commentaire['contenu']), 0, 45).'...';  ?></td>
+            <td class="col-md-1 col-xs-1"><?= htmlspecialchars($commentaire['user']) ?></td>
+            <td class="col-md-1 col-xs-1 text-center">
+              <?php $nb++ ?>
+              <?php for($i=$nb;$i<=$nb;$i++): ?>  
+
+              <label for="checkbox-<?= $i ?>" class="switch">
+              <input id="checkbox-<?= $i ?>" type="checkbox" name="statut[<?= $i ?>]" value="0">
+              <span class="slider round"></span>
+              </label>
+
+              <input name="id_com[<?= $i ?>]" type="hidden" value="<?= $commentaire['id'] ?>">
+              <?php endfor; ?>
+            </td>
+             <td class="col-md-1 col-xs-1 text-center"><a class="popup_commentaire" href="#<?= $commentaire['id'] ?>"><i class="fas fa-eye"></i></a></td>
+             <td class="col-md-1 col-xs-1 text-center"><a href="index.php?action=effacer_commentaires&delete=<?= $commentaire['id'] ?>&message"><i class="fas fa-trash-alt"></i></a></td>
+          </tr>
+          <?php endforeach; ?>
+      </tbody>
+    </table>
+
+<div class="action-gestion-articles">
+  <label for="all_select">
+  <input type="checkbox" id="all_select">    
+  Tous Effacer</label>
+  <button type="submit" class="record">Sauvegarder</button>
+</div>
+
+</form>
+
+<?= paginationDisplay($pagination_standby,'index.php?action=gestion_commentaires_standby&page='); ?>
+
+</section>
+
+<?php elseif($_GET['action'] == "gestion_commentaires_valide" AND !isset($_GET['message'])): ?>
+
+<section id="commentaires-valide">
+ 
+<h2>Commentaires validés :</h2>
+
+<form class="form-statut-ok" action="index.php?action=gestion_commentaires_valide&message" method="POST">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Illustration</th>
+          <th>Article</th>
+          <th>Message</th>
+          <th>Auteur</th>
+          <th class="text-center">Statut</th>
+          <th class="text-center">Visualiser</th>
+          <th class="text-center">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+   <?php $nb = -1; ?>
+    <?php foreach($commentsvalid as $commentok): ?>   
+        <tr>
+          <td class="col-md-1">
+            <label for="checkbox-<?= $commentok['id'] ?>">
+              <input id="checkbox-<?= $commentok['id'] ?>" class="checkbox media" type="checkbox" name="check[]" value="<?= $commentok['id'] ?>">
+            <label>
+          </td>
+          <td class="col-md-1 col-xs-1">
+            <img class="media-object img-rounded img-responsive" src="<?= $commentok['illustration'] ?>" alt="Illustration de <?= $commentok['titre'] ?>">
+          </td>
+          <td class="col-md-3 col-xs-3">
+            <?= $commentok['titre'] ?>             
+          </td>
+          <td class="col-md-3 col-xs-3"><?= substr(htmlspecialchars($commentok['contenu']), 0, 45).'...';  ?></td>
+          <td class="col-md-1 col-xs-1"><?= $commentok['user'] ?></td>
+          <td class="col-md-1 col-xs-1 text-center">
+            <?php $nb++ ?>
+            <?php for($i=$nb;$i<=$nb;$i++): ?>
+              <label for="statutb-<?= $i ?>" class="switch"> 
+              <input name="statutb[<?= $i ?>]" type="hidden" value="0">            
+              <input id="statutb-<?= $i ?>" type="checkbox" name="statutb[<?= $i ?>]" value="1" checked>
+              <span class="slider round"></span>                    
+              </label>           
+              <input name="id_com[<?= $i ?>]" type="hidden" value="<?= $commentok['id'] ?>">
+          </td>
+          <td class="col-md-1 col-xs-1 text-center"><a class="popup_commentaire" href="#<?= $commentok['id'] ?>">
+            <i class="fas fa-eye"></i></a>
+          </td>
+          <td class="col-md-1 col-xs-1 text-center">
+          <a href="index.php?action=effacer_commentaires&delete=<?= $commentok['id'] ?>&message"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+      <?php endfor; ?>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+ 
+<div class="action-gestion-articles">
+  <label for="all_select">
+  <input type="checkbox" id="all_select"/>    
+  Tous Effacer</label>
+  <button type="submit" class="record">Sauvegarder</button>
+</div>
+
+</form>
+
+<?= paginationDisplay($pagination_valid,'index.php?action=gestion_commentaires_valide&page='); ?>
+
+</section>
+
+
+<?php endif; ?>
+<?php endif; ?>
+
+<!-- POPUP COMMENTAIRES !-->
+<div id="popup">
+  <section id="popup-content">
+    <span class="close">&times;</span>     
+  </section>
+</div>

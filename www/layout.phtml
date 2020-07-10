@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<base href="/v2/"> 
+	<?= SeoTitre(); // BALISE TITLE (global.php ?>
+	<?= SeoDescription(); // BALISE DESCRIPTION (global.php) ?>
+	<link rel="shortcut icon" type="image/x-icon" href="www/images/favicon.ico">
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" />
+	<link rel="stylesheet" type="text/css" href="www/js/addons/fancybox/jquery.fancybox.css" media="screen" />
+	<link rel="stylesheet" href="www/css/addons/owl.carousel.min.css">
+	<link rel="stylesheet" href="www/css/style.css">
+	<link rel="stylesheet" href="www/css/style_addon.css">
+</head>
+<body>
+<!-- Chargement de la page avec un fade ( script.js ) -->
+<div class="loader"></div>
+<!-- FIN -->
+
+<header>
+	<nav id="top-nav">
+		<?php if (is_connect() == false):?>
+			<a id="myBtn" href="<?= currentURL(); ?>#">Se connecter</a>
+			<a href="inscription">S'enregistrer</a>
+		<?php else : ?>
+			<span>Bonjour : <?= $_SESSION['user']['login'] ?></span>
+			<a href="index.php?action=profil">Profil</a>
+			<a href="index.php?action=deconnect">Déconnexion</a>
+		<?php endif; ?>
+			<a href="administration123">Administration</a>
+	</nav>
+
+	<section id="instant-logo">
+	<a href="accueil"><h1>Instant Partage</h1>
+		<span>Projet 3WA Academy</span></a>
+		<form class="form-search form-inline" action="index.php?action=recherche" method="POST">
+			<label for="search" class="hidden">Recherche :</label>
+			<input type="search" id="search" name="recherche" placeholder="Recherche..." />
+			<button type="submit"><i class="fas fa-search"></i></button>
+		</form>
+	</section>
+
+	<?php require "www/bloc/menu.phtml"; ?>
+</header>
+
+<main>
+	<?php include $template ?>
+</main>
+
+
+<footer>
+	<div class="row">
+        <section id="bloc-newsletter" class="cadre-bloc col-lg-4 col-md-4 col-xs-12">
+           <h4>POUR NE RIEN RATER !</h4>
+	         <div>
+	           <label for="mail_news" class="hidden">E-Mail :</label>
+	           <input id="mail_news" type="email" placeholder="Ton adresse mail">
+			   <button id="submit_news" type="submit">S'inscrire</button>
+	         </div>
+        </section>
+
+        <section id="bloc-logo" class="col-lg-4 col-md-4 col-xs-12 text-center">
+	      <h4>Instant Partage</h4>
+		  <a id="logo" href="index.php"><img src="www/images/logo.png" alt="Logo Instant Partage"></a>
+        </section>
+
+        <section id="bloc-pages" class="cadre-bloc col-lg-4 col-md-4 col-xs-12">
+          <h4>Pages</h4>
+	      <?php affichage_nav_pages(); ?>
+        </section>
+
+        <section id="bloc-reseaux" class="cadre-bloc col-lg-12 col-md-12 col-xs-12">
+          <h4>Suivre Instant-Partage sur les réseaux sociaux !</h4>			
+			<ul class="text-center">
+				<li><a href="#"><i class="fab fa-twitter-square"></i>Twitter</a></li>
+				<li><a href="#"><i class="fab fa-facebook"></i>Facebook</a></li>
+				<li><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
+				<li><a href="#"><i class="fab fa-pinterest"></i>Pinterest</a></li>
+			</ul>
+          </section>
+
+		<div id="copyright" class="cadre-bloc col-lg-12 col-md-12 col-xs-12 text-center">
+			2020 Instant Partage - Developped by <a href="http://www.ulrich-web.fr">ulrich-web</a>
+		</div>
+    </div>
+</footer>
+
+<!-- POPUP - CONNEXION -->
+<div id="popup">
+
+  <section id="popup-content">
+    <span class="close">&times;</span>
+
+	<h6><i class="fas fa-user"></i> Espace Membres</h6>   
+    
+	<form id="formulaire-connection-popup" action="index.php?action=login" method="POST">
+                
+        <label for="email"><i class="far fa-envelope"></i>Email:</label>
+        <input id="email" type="email" placeholder="Entrer votre identifiant" name="mail" required>
+
+        <label for="password"><i class="fas fa-lock"></i>Mot de passe:</label>
+        <input id="password" type="password" placeholder="Entrer le mot de passe" name="password" autocomplete="on" required>
+
+        <input type="hidden" name="url_courante" value="<?= currentURL(); ?>">
+
+        <label for="envoyer" class="hidden">se connecter</label>
+        <input id="envoyer" type="submit" id="submit" value="Se connecter" >
+        
+    </form>
+    <a href="index.php?action=creer_compte">Creer un compte</a>
+
+  </section>
+</div>
+<!-- FIN POPUP - CONNEXION -->
+
+<a id="button-top"></a>
+<script src="www/js/addons/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="www/js/addons/bootstrap.min.js"></script>
+<script src="www/js/addons/fancybox/jquery.mousewheel.pack.js"></script>
+<script src="www/js/addons/fancybox/jquery.fancybox.pack.js?v=2.1.7"></script>
+<script src="www/js/addons/owl.carousel.min.js"></script>
+<script src="www/js/addons.js"></script>
+<script src="www/js/script.js"></script>
+</body>
+</html>

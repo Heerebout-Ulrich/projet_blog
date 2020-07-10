@@ -1,0 +1,146 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>  
+<?php endif; ?>
+
+<section id="gestion-gallerie">
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+
+<?php elseif($_GET['action'] == "add_image_admin" AND !isset($_GET['message'])): ?>
+
+<form class="form-article" action="index.php?action=add_image_admin&message" method="POST" enctype="multipart/form-data">  
+ 
+  <label for="article">Selectionne l'article :</label>
+  <select name="article" id="article">
+   <?php foreach($articles as $article): ?>
+   <option value="<?= $article['id'] ?>"><?= $article['titre'] ?></option>
+   <?php endforeach; ?>
+  </select>
+
+  <table class="table table-bordered gestion-photos">
+    <thead>
+        <tr>
+            <th>Fichier</th>
+            <th>description</th>
+        </tr>
+   </thead>  
+
+    <tr>
+        <td><input class="inputfile" type = "file" name = "fileUpload[]" ></td>
+        <td><input type = "text" name = "title[]" placeholder = "Title" ></td>
+    <tr>
+  </table>
+
+      <a id="addline" href="#">Ajouter une ligne <i class="fas fa-plus-circle"></i></a>
+      <a id="removeline" href="#">Supprimer une ligne <i class="fas fa-minus-circle"></i></a>
+      <button class="record" type="submit">Soumettre</button>
+
+</form>
+
+<?php elseif($_GET['action'] == "edit_image_admin" AND !isset($_GET['message'])): ?>
+
+<form class="form-article" action="index.php?action=edit_image_admin&id_img=<?= $infos['id'] ?>&message" method="POST" enctype="multipart/form-data">  
+
+   <label for="article">Selectionne l'article :</label>
+   <select id="article" name="article">
+     <option value="<?= $infos['id_article'] ?>"><?= htmlspecialchars($infos['titre']) ?> - (default)</option>
+     <?php foreach($articles as $article): ?>
+         <?php if( $article['id'] <> $infos['id_article']): ?> 
+            <option value="<?= $article['id'] ?>"><?= htmlspecialchars($article['titre']) ?></option>
+         <?php endif; ?>
+     <?php endforeach; ?>
+   </select>
+
+    <label for="desc">Description de l'image :</label>
+    <input id="desc" type="text" name="desc" value="<?= htmlspecialchars($infos['desc_img']) ?>">
+
+    <label for="img_source">Image source :</label>
+    <input id="img_source" type= "file" name = "img_source" >
+    
+    <label for="img_source_bis" class="hidden">Image source (bis:</label>
+    <input name="img_source_bis" type="hidden" value="<?= $infos['source'] ?>">
+    <img src="<?= $infos['source'] ?>" alt="image source">
+
+    <label for="img_large">Image large :</label>
+    <input id="img_large" type = "file" name = "img_large" />
+    
+    <label for="img_large_bis" class="hidden">Image large :(bis)</label>
+    <input name="img_large_bis" type="hidden" value="<?= $infos['image_large'] ?>"/>
+    <img src="<?= $infos['image_large'] ?>" alt="image au format large">
+
+    <label for="img_medium">Image medium :</label>
+    <input id="img_medium" type = "file" name = "img_medium" >
+    
+    <label for="img_medium_bis" class="hidden">Image medium :(bis)</label>
+    <input name="img_medium_bis" type="hidden" value="<?= $infos['image_medium'] ?>">
+    <img src="<?= $infos['image_medium'] ?>" alt="image au format medium">
+
+    <label for="img_small">Image small :</label>
+    <input d="img_small" type = "file" name = "img_small" >
+    
+    <label for="img_small_bis" class="hidden">Image small ( hidden ) :</label>
+    <input name="img_small_bis" type="hidden" value="<?= $infos['image_small'] ?>">
+    <img src="<?= $infos['image_small'] ?>" alt="image au format petite taille">
+
+    <button class="record" type="submit">Enregistrer</button>
+
+</form>
+
+<?php else: ?>
+
+  <h2>Gestion des images</h2>
+
+<div class="alert alert-warning" role="alert">
+  Cette page est en travaux.
+</div>
+
+ <div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Toutes les images</a></li>
+    <li><a href="#tabs-3">Images en attente</a></li>
+  </ul>
+
+
+  <div id="tabs-1">
+  <form class="form-gallery" action="index.php?action=remove_image_admin&message" method="POST">
+      <table id="tab-gestion-articles" class="table table-bordered">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Images</th>
+            <th>Titre - Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($gallerys as $gallery): ?>
+          <tr>
+            <td class="col-md-1">
+              <span class="checkbox col-md-1"><input class="checkbox" type="checkbox" name="check[]" value="<?= $gallery['id'] ?>"></span>
+            </td>
+            <td class="col-md-1">
+                <img class="media-object img-rounded img-responsive" src="<?= $gallery['image_small'] ?>" alt="<?= htmlspecialchars($gallery['desc_img']) ?>" />
+            </td>
+            <td class="col-md-8">
+              <h4 class="list-group-item-heading"><?= htmlspecialchars($gallery['titre']) ?></h4>
+              <p class="list-group-item-text"><?= htmlspecialchars($gallery['desc_img']) ?></p>
+            </td>
+            <td class="col-md-2">
+                <a href="index.php?action=edit_image_admin&id_img=<?= $gallery['id'] ?>"><button type="button" class="btn btn-primary btn-lg btn-block">Editer</button></a>
+            </td>
+          </tr>
+        <?php endforeach; ?>  
+        </tbody>
+      </table>
+       <button class="delete record" type="submit">Effacer les images</button>
+  </form>
+                   
+ </div>
+ 
+</div>
+
+<?= paginationDisplay($pagination,'index.php?action=gallery_admin&page='); ?>
+
+<?php endif; ?>
+
+</section>

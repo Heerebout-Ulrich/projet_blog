@@ -1,0 +1,50 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>
+<?php endif; ?>
+
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+<?php endif; ?>
+
+<section id="gestion-utilisateurs">
+  <h2><i class="fas fa-cogs"></i> Gestion des Utilisateurs</h2>
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Tous les utilisateurs</a></li>
+      <li><a href="#tabs-2">En attente de validation</a></li>
+    </ul>
+        <div id="tabs-2">
+          <h2>En attente de validation : </h2>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+          <div id="tabs-1">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>Login</th>
+                    <th>email</th>
+                    <th>Date Inscription</th>
+                    <th>Statut</th>
+                    <th>Avatar</th>
+                    <th>Supprimer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach($listeusers as $user): ?>
+                  <tr>
+                    <td class="col-md-1 col-xs-1"><?= $user['id'] ?></td>
+                    <td class="col-md-1 col-xs-1"><?= htmlspecialchars($user['user_login']) ?></td>
+                    <td class="col-md-1 col-xs-1"><?= htmlspecialchars($user['user_email']) ?></td>
+                    <td class="col-md-1 col-xs-1"><?= date('d-m-Y H:i:s', strtotime($user['date'])); ?></td>
+                    <td class="col-md-1 col-xs-1"><?= $user['user_statut'] ?></td>
+                    <td class="col-md-1 col-xs-1"><img src="<?= $user['avatar'] ?>" alt="avatar de <?= htmlspecialchars($user['user_login']) ?>"></td>
+                    <td class="col-md-1 col-xs-1"><a href="index.php?action=effacer_membre&delete=<?= $user['id'] ?>&message"><i class="fas fa-trash-alt"></i></a></td>
+                  <tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+          </div>
+  </div>
+
+</section>

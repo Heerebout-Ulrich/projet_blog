@@ -1,0 +1,96 @@
+<aside class="col-md-4">
+
+ <!-- bloc Calendrier  !-->
+          <section id="calendrier" class="cadre-bloc">
+            <h4>Calendrier</h4>
+          </section>
+<!-- fin bloc Infos Pratiques !--> 
+
+<!-- bloc Infos Pratiques  !-->
+      <?php if(!empty($article['infos_sup'])): ?>
+
+          <section class="cadre-bloc">
+            <h4>Infos Pratiques</h4>
+            <div><?= html_entity_decode($article['infos_sup']) ?></div>
+          </section>
+
+      <?php endif; ?>
+<!-- fin bloc Infos Pratiques !-->
+
+<!-- bloc Carte !-->
+      <?php if(!empty($article['map'])): ?>
+
+          <section class="cadre-bloc">
+            <h4>Carte</h4>
+            <div><?= $article['map']; ?></div>
+          </section>
+
+      <?php endif; ?>
+<!-- fin bloc Carte !-->
+
+<!-- bloc Gallerie Images !-->
+      <?php if(!empty($gallery)): ?>
+
+      <section id="gallerie-images" class="cadre-bloc">
+        <h4>Gallerie</h4>
+          <?php foreach ($gallery as $image): ?>
+          <figure>
+            <a title="<?= htmlspecialchars($image['desc_img']) ?>" href="<?= $image['image_large'] ?>" class="fancybox"><img src="<?= $image['image_small'] ?>" alt="<?= htmlspecialchars($image['desc_img']) ?>"></a>
+            <figcaption><?= htmlspecialchars($image['desc_img']) ?></figcaption>
+          </figure>
+          <?php endforeach; ?>
+      </section>
+
+      <?php endif; ?>
+<!-- fin bloc gallerie Images !-->
+
+<!-- bloc Menu déroulant !-->
+
+      <section class="cadre-bloc">
+      <h4>Menu</h4>
+      <div class="panel-group" id="accordion">
+      <?php $i = 1; ?>
+      <?php foreach($menuright as $menus): ?>
+      <?php $i++; ?> 
+      <div class="panel panel-default">
+     
+      <div class="panel-heading">
+        <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $i; ?>"><i class="fas fa-caret-right"></i> <?= $menus['nom_categ'] ?></a></h4>
+      </div>
+      <?php $sousmenuright = SousCategByParent($menus['id']); ?>
+      
+      <?php if(!empty($sousmenuright)): ?>
+      <div id="collapse<?= $i; ?>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <table class="table">
+            <?php foreach($sousmenuright as $downmenus): ?>
+            <tr>
+              <td><a href="<?= format_url($menus['nom_categ']) ?>/<?= format_url($downmenus['categ']) ?>/"> <?= $downmenus['nom_categ'] ?></a></td>
+            </tr>
+            <?php endforeach; ?>      
+          </table>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      </div> 
+      <?php endforeach; ?>              
+      </div></section>
+<!-- fin bloc menu vertical !-->
+
+<!-- Ajax Articles Aléatoires !-->
+    <section id="bloc-articles-aleatoires" class="cadre-bloc">
+        <h4>Articles Aléatoire</h4>
+        <ul class="random-article-gen"></ul>
+    </section>
+<!-- fin Ajax Articles Aléatoires !-->
+
+
+<!-- Ajax Derniers Commentaires !-->
+      <section id="comments-bloc" class="cadre-bloc">
+        <h4>Derniers Commentaires</h4>
+        <ul></ul>
+      </section>
+<!-- fin Ajax Derniers Commentaires !-->
+
+  </aside>

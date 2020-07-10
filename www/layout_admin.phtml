@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Administration - Instant Partage</title>
+	<meta name="description" content="Administration - Instant Partage" />
+	<link rel="shortcut icon" type="image/x-icon" href="www/images/favicon.ico">
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" />
+	<link rel="stylesheet" type="text/css" href="www/js/addons/fancybox/jquery.fancybox.css" media="screen" />
+	<link rel="stylesheet" href="www/css/style.css">
+	<link rel="stylesheet" href="www/css/style_addon.css">
+</head>
+<body>
+
+<?php if(is_admin() == TRUE AND !isset($_GET['message'])): ?>
+<header>	
+	<nav id="top-nav">			
+	   <span>Bonjour : <?= $_SESSION['admin']['nick'] ?></span>
+	   <a href="index.php?action=edit_profil_admin">Profil</a>
+	   <a href="index.php?action=deconnect"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>	
+	   <a href="accueil" title="Retour à l'accueil du site"><i class="fas fa-sign-out-alt"></i> Retour au site</a>					
+	</nav>		
+	<section id="instant-logo-admin">
+	   <a href="index.php?action=administration">
+		   <h1>Instant Partage</h1>
+		   <span>Administration</span>
+	   </a>
+	</section>
+
+<!-- Debut barre du Menu Administration -->
+		<nav class="navbar">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed col-md-12" data-toggle="collapse" data-target="#menu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="menu">
+			<ul class="nav navbar-nav text-uppercase">
+				<li>
+					<a href="index.php?action=administration" class="dropdown-toggle"><i class="fas fa-home"></i> Accueil</a>
+				</li>
+				
+				<li class="dropdown">
+					<a href="index.php?action=config_general">Génèrale</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=config_general">Options Génèrales</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gestion_articles">Articles</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=ajouter_article&add">Creer un article</a></li>
+						<li><a href="index.php?action=gestion_articles">Gestion des articles</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gestion_categories">Catégories</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=ajouter_categorie&add">Creer une categorie</a></li>
+						<li><a href="index.php?action=gestion_categories">Gestion des categories</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gestion_commentaires_standby">Commentaires</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=gestion_commentaires_standby">Gestion des commentaires</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gestion_membres">Utilisateurs</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=gestion_membres">Gestion des membres</a></li>
+						<li><a href="index.php?action=gestion_membres">Gestion des admin</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gestion_pages_admin">Pages</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=ajouter_page&add">Creer</a></li>
+						<li><a href="index.php?action=gestion_pages_admin">Gestion des pages</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="index.php?action=gallery_admin">Images</a>
+					<ul class="dropdown-menu">
+						<li><a href="index.php?action=add_image_admin">Ajouter</a></li>
+						<li><a href="index.php?action=gallery_admin">Gestion</a></li>
+					</ul>
+				</li>
+			</ul>
+			</div>
+		</nav>
+<!-- Fin barre du Menu Administration -->
+
+</header>
+<main id="administration">
+<?php endif; ?>	
+	<?php include $template ?>
+<?php if(is_admin() == TRUE AND !isset($_GET['message'])): ?>	
+</main>
+		
+<footer id="copyright" class="text-center">
+	2020 Instant Partage - Developped by <a href="http://www.ulrich-web.fr">ulrich-web</a>
+</footer>
+<?php endif; ?>
+
+    <script src="www/js/addons/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="www/js/addons/bootstrap.min.js"></script>
+    <script src="www/js/addons/tinymce/tinymce.min.js"></script>
+    <script src="www/js/addons/tinymce/display.js"></script>
+    <script src="www/js/addons/fancybox/jquery.mousewheel.pack.js"></script>
+    <script src="www/js/addons/fancybox/jquery.fancybox.pack.js?v=2.1.7"></script>
+    <script src="www/js/addons/owl.carousel.min.js"></script>
+    <script src="www/js/addons.js"></script>
+    <script src="www/js/script.js"></script>
+</body>
+</html>

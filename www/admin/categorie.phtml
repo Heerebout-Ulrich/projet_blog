@@ -1,0 +1,106 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>  
+<?php else: ?>
+
+<section id="gestion-categorie">
+<?php if(isset($_GET['add'])): ?>
+
+<h2><i class="fas fa-folder-plus"></i> Creer une Catégorie</h2>
+
+    <form class="categorie" action="index.php?action=ajouter_categorie&message" method="POST" enctype="multipart/form-data">
+        
+        <label for="nom_categ">Creer une categorie</label>
+        <input id="nom_categ" type="text" name="nom_categ">
+        
+        <label for="illustration">Illustration de la categorie</label>
+        <input id="illustration" type="file" name="illustration" accept="image/png, image/jpeg">
+        
+        <label for="reftitre">Référencement : Titre de page</label>
+        <input id="reftitre" type="text" name="reftitre">
+        
+        <label for="refdescription">Référencement : Description</label>
+        <textarea id="refdescription" rows="5" name="refdescription">description référencement</textarea>
+              
+        <button type="submit">Soumettre</button>
+    </form>
+
+<?php elseif (isset($_GET['edit_categ'])): ?>
+
+        <form class="categorie" action="index.php?action=editer_categorie&id=<?= $cat['id'] ?>&message" method="POST" enctype="multipart/form-data">
+            <label for="newname">Modifier une categorie</label>
+            <input id="newname" type="text" name="newname" value="<?= $cat['nom_categ'] ?>">
+
+            <label for="categ">Sous categorie de :</label>
+            <select name="sous_categ" id="categ">
+            <!-- selection de la categ par defaut; -->
+				<option value="<?= $cat['cat_parent'] ?>"><?= htmlspecialchars($sous_categ['nom_categ']) ?></option>
+				<?php foreach($listecategories as $categorie): ?>
+				<!-- Evite le doublon dans le menu deroulant -->
+				<?php if( $sous_categ['nom_categ'] <> $categorie['nom_categ']): ?>
+				<option value="<?= $categorie['id'] ?>"><?= htmlspecialchars($categorie['nom_categ']) ?></option>
+				<?php else: ?>
+				<option value="0">vide</option>
+				<?php endif; ?>
+				<?php endforeach; ?>  
+            </select>
+
+
+            <?php if(!empty($cat['illustration'])): ?>
+            <image src="www/images/categorie/<?= $cat['illustration'] ?>">
+            <?php endif; ?>    
+            <label for="illustration">Illustration de la categorie</label>
+            <input id="illustration" type="file" name="illustration" accept="image/png, image/jpeg">
+            
+            <label for="reftitre">Référencement : Titre de page</label>
+            <input id="reftitre" type="text" name="reftitre" value="<?= htmlspecialchars($cat['ref_titre']) ?>">
+            
+            <label for="refdescription">Référencement : Description</label>
+            <textarea id="refdescription" rows="5" name="refdescription"><?= htmlspecialchars($cat['ref_description']) ?></textarea>
+            <input name="id_cat" type="hidden" value="<?= $cat['id'] ?>">
+
+            <label for="name_system">Nom Système :</label>
+            <input id="name_system" type="text" name="categ" value="<?= htmlspecialchars($cat['categ']) ?>">
+
+            <button type="submit" class="record">Modifier</button>
+        </form>
+
+<?php elseif(isset($_GET['message']) OR isset($_GET['add'])): ?>
+<?= $message ?>  
+<?php else: ?>
+
+ <form action="index.php?action=gestion_categories&message" method="POST">  
+    <h2><i class="fas fa-cogs"></i> Gestion des categories</h2>
+        <table class="table table-bordered">
+             <thead>
+                 <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Parent</th>
+                    <th>Slug</th>
+                    <th>Ordre</th>
+                    <th class="text-center">Nb Articles</th>
+                    <th class="text-center">Editer</th>
+                    <th class="text-center">Supprimer</th>
+                 </tr>
+             </thead>
+             <tbody>
+                <?php foreach($listecategories as $categorie): ?>
+                  <tr>
+                    <td class="col-md-1"><input type="text" name="id[]" value="<?= $categorie['id'] ?>"></td>
+                    <td class="col-md-4"><?= htmlspecialchars($categorie['nom_categ']) ?></td>
+                    <td class="col-md-4"><?= htmlspecialchars($categorie['parent']) ?></td>
+                    <td class="col-md-4"><?= htmlspecialchars($categorie['categ']) ?></td>
+                    <td class="col-md-4"><input type="text" name="order[]" value="<?= $categorie['ordre'] ?>"></td>
+                    <td class="col-md-1 text-center"><?= $categorie['nb_article'] ?></td>
+                    <td class="col-md-1 text-center"><a href="index.php?action=editer_categorie&edit_categ=<?= $categorie['id'] ?>"><i class="fas fa-edit"></i></a></td>
+                    <td class="col-md-1 text-center"><a href="index.php?action=effacer_categorie&delete=<?= $categorie['id'] ?>&message"><i class="fas fa-trash-alt"></i></a></td>
+                  </tr>
+                <?php endforeach; ?>
+             </tbody>
+         </table>
+    <button type="submit" class="record">Sauvegarder</button>
+ </form>
+   
+<?php endif; ?>
+<?php endif; ?>
+</section>

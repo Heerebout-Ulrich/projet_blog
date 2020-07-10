@@ -1,0 +1,236 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=administration")?>
+<?php else: ?>
+
+<section id="gestion-articles">
+
+<h2><i class="fas fa-cogs"></i> Gestion des articles</h2>
+<?php if(isset($_GET['edit_id']) AND !isset($_GET['message'])): ?>
+
+<section id="editer-article">
+<form class="form-article" action="index.php?action=editer_article&edit_id=<?= $articles['id'] ?>&message" method="POST" enctype="multipart/form-data">
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Général</a></li>
+    <li><a href="#tabs-2">Illustration</a></li>
+    <li><a href="#tabs-3">Référencement</a></li>
+  </ul>
+
+<div id="tabs-1">
+  
+  <h3><i class="fas fa-feather"></i> Editer un Article</h3>
+
+  <label for="categ">Categorie :</label>
+  <select name="categ" id="categ">
+      <!-- selection de la categ par defaut; -->
+      <option value="<?= $articles['id_categ'] ?>"><?= htmlspecialchars($articles['nom_categ']) ?></option>
+      <?php foreach($listecategories as $categorie): ?>
+      <!-- Evite le doublon dans le menu deroulant -->
+        <?php if( $articles['nom_categ'] <> $categorie['nom_categ']): ?>
+        <option value="<?= $categorie['id'] ?>"><?= htmlspecialchars($categorie['nom_categ']) ?></option>
+        <?php endif; ?>
+      <?php endforeach; ?>
+  </select>
+
+  <label for="resume">Résumé de l'article :</label>
+  <textarea id="resume" class="tinymce" name="resume" rows="5" cols="33"><?= htmlspecialchars($articles['resume']) ?></textarea>
+
+  <hr>
+
+  <div class="row">  
+    <section class="col-md-8 col-xs-12 col-sm-12 cadre-bloc">
+      <h4>Titre de l'article :</h4>
+        <label for="titre" class="hidden">Titre de l'article :</label>
+        <input id="titre" type="text" name="titre" value="<?= htmlspecialchars($articles['titre']) ?>">
+
+      <h4>Contenu de l'article :</h4>  
+        <label for="mytextarea" class="hidden">Contenu de l'article :</label>
+        <textarea id="mytextarea" name="contenu" rows="30" cols="33"><?= $articles['contenu'] ?></textarea>
+    </section>
+
+    <aside class="col-md-4 col-xs-12 col-sm-12">     
+      <section class="cadre-bloc">
+      <h4>Infos Pratiques :</h4>
+          <label for="i-pratique" class="hidden">Infos Pratiques :</label>
+          <textarea id="i-pratique" name="infos_sup" rows="5" cols="33"><?= html_entity_decode($articles['infos_sup']) ?></textarea>
+      </section>
+
+            
+      <section class="cadre-bloc">
+      <h4>Infos Pratiques :</h4>
+          <label for="mapgoogle" class="hidden">Carte :</label>
+          <textarea id="mapgoogle" name="map" rows="5" cols="33"><?= $articles['map'] ?></textarea>
+      </section>
+
+
+      <section class="cadre-bloc">
+      <h4>Illustration :</h4>
+           <?php if(!empty($articles['illustration'])): ?>
+            <label>Apercu de l'illustration :</label>
+            <img src="<?= $articles['illustration'] ?>" alt="image illustration article">
+            <?php endif; ?>
+            
+            <label for="image">Illustration (680x450) :</label>
+            <input id="image" type="file" name="image" accept="image/png, image/jpeg">            
+            <input name="image_bis" type="hidden" value="<?= $articles['illustration'] ?>">
+
+            <label for="alt_illustration">Description de l'illustration :</label>
+            <input id="alt_illustration" type="text" name="alt_illustration" value="<?= htmlspecialchars($articles['alt_illustration']) ?>">
+      </section>      
+    </aside>
+
+  </div><!-- FIN DE LA DIV ROW !-->
+</div><!-- FIN DE LA DIV tab1 !-->
+
+<div id="tabs-2">
+      <label for="header_illustration">Header Illustration (1060x:530) : </label>
+      <input type="file" id="header_illustration" name="header_illustration" accept="image/png, image/jpeg">		
+      <input name="header_illustration_bis" type="hidden" value="<?= $articles['header_illustra'] ?>">
+
+      <label for="alt_header_illustra">Description de l'image Slider :</label>		
+      <input id="alt_header_illustra" type="text" name="alt_header_illustra" value="<?= htmlspecialchars($articles['alt_header_illustra']) ?>">
+
+      <?php if(!empty($articles['header_illustra'])): ?>
+      <label>Apercu de l'illustration pour le slider :</label>
+      <img src="<?= $articles['header_illustra'] ?>" alt="image illustration en-tete">
+      <?php endif; ?>
+</div>
+
+<div id="tabs-3">
+      <label for="titre-ref">Titre :</label>
+      <input id="titre-ref" type="text" name="titre-ref" value="<?= htmlspecialchars($articles['ref_titre']) ?>">
+      <label for="description-ref">Description :</label>
+      <textarea id="description-ref" name="description-ref" rows="5" cols="33"><?= htmlspecialchars($articles['ref_description']) ?></textarea>
+
+</div>
+      <button class="record" type="submit">Enregistrer</button>
+</div><!-- FIN DE LA DIV tabs !-->
+
+</form>
+</section>
+<!-- Fin affichage si parametre editer -->
+<?php elseif(isset($_GET['add'])): ?>
+<!-- Affichage si parametre ajouter -->
+<form class="form-article" action="index.php?action=ajouter_article&message" method="POST" enctype="multipart/form-data">
+
+<section id="creer-article">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Général</a></li>
+      <li><a href="#tabs-2">Illustration</a></li>
+      <li><a href="#tabs-3">Référencement</a></li>
+    </ul>
+
+  <div id="tabs-1">  
+      <h3><i class="fas fa-feather"></i> Creer un Article</h3>
+
+      <label for="categ">Categorie :</label>
+      <select name="categ" id="categ">
+        <?php foreach($listecategories as $categorie): ?>
+        <option value="<?= $categorie['id'] ?>"><?= htmlspecialchars($categorie['nom_categ']) ?></option>
+        <?php endforeach; ?>
+      </select>
+
+      <label for="resume">Résumé de l'article :</label>
+      <textarea id="resume" class="tinymce" name="resume" rows="5" cols="33"></textarea>
+      <hr>
+
+      <div class="row">
+          <section class="col-md-8 col-xs-12 col-sm-12">
+              <article class="single-blog-post">
+                <label for="titre">Titre de l'article :</label>
+                <input id="titre" type="text" name="titre">
+
+                <label for="mytextarea">Contenu de l'article :</label>
+                <textarea id="mytextarea" name="contenu" rows="30" cols="33"></textarea>
+              </article>
+          </section>
+
+          <aside class="col-md-4 col-xs-12 col-sm-12">
+              <section class="cadre-bloc">
+                <label for="i-pratique">Infos Pratiques :</label>
+                <textarea id="i-pratique" name="infos_sup" rows="5" cols="33"></textarea>
+              </section>
+
+              <section class="cadre-bloc">
+                <label for="mapgoogle">Carte :</label>
+                <textarea id="mapgoogle" name="map" rows="5" cols="33"></textarea>
+              </section>
+
+              <section class="cadre-bloc">
+                    <label for="image">Photo d'illustration (680x450) :</label>
+                    <input id="image" type="file" name="image" accept="image/png, image/jpeg">
+                    <label for="alt_illustration">Description de l'illustration :</label>
+                    <input id="alt_illustration" type="text" name="alt_illustration">
+              </section>
+          </aside>
+      </div>
+  </div>
+  <div id="tabs-2">
+    <label for="header_illustration">Header Illustration (1060x:530) :</label>
+    <input type="file" id="header_illustration" name="header_illustration" accept="image/png, image/jpeg">
+    <label for="alt_header_illustra">Description de l'image Slider :</label>
+    <input id="alt_header_illustra" type="text" name="alt_header_illustra">
+  </div>
+
+  <div id="tabs-3">
+    <label for="titre-ref">Titre :</label>
+    <input id="titre-ref" type="text" name="titre-ref">
+    <label for="description-ref">Description :</label>
+    <textarea id="description-ref" class="tinymce" name="description-ref" rows="5" cols="33"></textarea>
+  </div>
+
+  <button class="record" type="submit">Soumettre</button>
+</form>
+
+</section>
+
+<?php elseif(isset($_GET['message']) OR isset($_GET['add'])): ?>
+<?= $message ?>
+<?php else: ?>
+  
+    <table id="tab-gestion-articles" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Illustration</th>
+          <th>Article</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach($listearticles as $article): ?>   
+            <tr>
+              <td class="col-md-1">
+              <img class="media-object img-rounded img-responsive" src="<?= $article['illustration'] ?>"" alt="<?= htmlspecialchars($article['alt_illustration']) ?>
+              ">
+              </td>
+              <td class="col-md-8">
+                <h4 class="list-group-item-heading"><?= htmlspecialchars($article['titre']) ?></h4>
+                <a href="#"><strong><span class="badge badge-danger"><?= htmlspecialchars($article['nom_categ']) ?></span></strong></a>
+                <strong>Auteur :</strong><?= $article['nick'] ?>
+                <p><?= $article['resume'] ?></p>
+              </td>
+              <td class="col-md-1">
+                <a href="index.php?action=editer_article&edit_id=<?= $article['id'] ?>">
+                  <button type="button" class="btn btn-primary btn-lg btn-block">Editer</button>
+                </a>
+                <a href="index.php?action=effacer_article&delete=<?= $article['id'] ?>&message">
+                  <button type="button" class="btn btn-danger btn-lg btn-block">Supprimer</button>
+                </a>
+                <a href="index.php?action=article&id=<?= $article['id'] ?>">
+                  <button type="button" class="btn btn-light btn-lg btn-block">Visualiser</button>
+                </a>
+              </td>
+            </tr>
+          <?php endforeach; ?>  
+          </tbody>
+    </table>
+
+<?= paginationDisplay($pagination,'index.php?action=gestion_articles&page='); ?>
+
+<?php endif; ?>
+<!-- fin affichage par defaut -->
+<?php endif; ?>
+
+</section>

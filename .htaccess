@@ -1,0 +1,30 @@
+Options -MultiViews
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+RewriteRule ^accueil$ index.php [L]
+RewriteRule ^accueil/([0-9]+)/$ index.php?page=$1 [L]
+
+RewriteRule ^categories$ index.php?action=categorie [L]
+
+RewriteRule ^([a-zA-Z0-9-_]+)/$ index.php?action=categorie&name=$1 [L]
+RewriteRule ^([a-zA-Z0-9-_]+)/([0-9]+)/$ index.php?action=categorie&name=$1&page=$2 [L]
+
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/$ index.php?action=categorie&parent=$1&name=$2 [L]
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([0-9]+)/$ index.php?action=categorie&parent=$1&name=$2&page=$2 [L]
+
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9]+)/$ index.php?action=categorie&parent=$1&sous_categ=$2&name=$3 [L]
+RewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9]+)/([0-9]+)/$ index.php?action=categorie&parent=$1&sous_categ=$2&name=$3&page=$4 [L]
+
+RewriteRule ^([a-zA-Z0-9-\]+)/([a-zA-Z0-9-_]+)/([0-9]+)-([a-zA-Z0-9-_]+)$ index.php?action=article&path=$1&id=$2&titre=$3 [L]
+
+RewriteRule ^inscription$ index.php?action=creer_compte [L]
+RewriteRule ^connexion$ index.php?action=login [L]
+RewriteRule ^administration123$ index.php?action=administration [L]
+RewriteRule ^a-propos$ index.php?action=page&id=7&name=a-propos [L]
+RewriteRule ^mentions-legales$ index.php?action=page&id=8&name=mentions-legales [L]
+RewriteRule ^contact$ index.php?action=page&id=2&name=contact [L]

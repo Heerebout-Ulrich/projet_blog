@@ -1,0 +1,74 @@
+<!-- Fil d'ariane !-->
+<nav id="fil-ariane"> 
+  <ul>
+    <li><a href="/accueil">Accueil</a></li>
+    <li><a href="<?= DisplayCategForArticle($_GET['id']); ?>/"><?= $article['nom_categ'] ?></a></li>
+    <li class="active"><?= $article['titre'] ?></li>
+  </ul>
+</nav>
+<!-- Fil d'ariane !-->
+  <div class="row">    
+    <div class="col-md-8">       
+        <!-- debut article !-->
+          <article id="article-blog">                
+              <a href="<?= DisplayCategForArticle($_GET['id']); ?>/"><span class="tag-categ"><?= htmlspecialchars($article['nom_categ']) ?></span></a>
+                <h2><?= htmlspecialchars($article['titre']) ?></h2>                    
+                  <figure>
+                    <img class="illustration_article" src="<?= $article['illustration'] ?>" alt="<?= htmlspecialchars($article['alt_illustration']) ?>">
+                    <figcaption>
+                      <ul class="post-meta pull-left">
+                        <li class="author">Article posté par <a href="#">Maëva</a>,</li>
+                        <li class="date">le : 08-03-2020</li>
+                      </ul>
+                      <ul>                   
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                      </ul>
+                    </figcaption>
+                  </figure>                                     
+                <div class="post-content"><?= html_entity_decode($article['contenu']) ?></div>
+          </article>
+
+        <!-- fin article !-->
+    </div>
+    <?php require "www/bloc/sidebar.phtml"; ?>
+  </div>
+
+<!-- debut suggestion d'article CAROUSEL !-->
+      <section id="article-suggestion" class="hidden-xs">
+
+          <h4 class="widget-title text-uppercase text-center">Suggestion d'autres articles</h4>
+            <div class="carousel slide col-md-12" id="SuggestionArticlesCarousel">
+              
+              <div class="carousel-inner">
+                <?php foreach($articlessuggest as $articlesug): ?>
+                <?php if ($articlesug === reset($articlessuggest)): ?>
+                <div class="item active">
+                  <?php else: ?>
+                  <div class="item">
+                    <?php endif; ?>
+                    <div class="col-md-3 col-xs-3">
+                     <figure>
+                      <a href="<?= DisplayCategForArticle($articlesug['id']) ?>/<?= $articlesug['id'] ?>-<?= format_url($articlesug['titre']) ?>">
+                       <img src="<?= $articlesug['illustration'] ?>" alt="<?= htmlspecialchars($articlesug['alt_illustration']) ?>">
+                      </a>
+                        <figcaption><?= htmlspecialchars($articlesug['titre']) ?></figcaption>                     
+                     </figure>                                          
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+               </div>
+                <a class="left carousel-control" href="#SuggestionArticlesCarousel" data-slide="prev">
+                  <i class="glyphicon glyphicon-chevron-left"></i>
+                </a>
+                <a class="right carousel-control" href="#SuggestionArticlesCarousel" data-slide="next">
+                  <i class="glyphicon glyphicon-chevron-right"></i>
+                </a>
+            </div>
+
+         <div class="clear"></div>  
+      </section>
+<!-- fin suggestion d'article !-->
+
+<?php require "www/article/commentaires.phtml"; ?>

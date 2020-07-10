@@ -1,0 +1,52 @@
+<?php if(isset($_GET['message'])): ?>
+<?= $message ?>
+<?php else: ?>
+ <section id="bloc_commentaires">
+  <h4>Commentaires</h4>   
+    <?php if (empty($listecommentaires)): ?>
+        <?= '<span class="no-comment">Aucun message <i class="fas fa-comment-slash"></i></span>' ?>
+    <?php else: ?>
+        <ul>
+            <?php foreach($listecommentaires as $commentaires): ?>
+            <li id="commentaire-<?= $commentaires['id'] ?>">   
+               <img alt="avatar de <?= $commentaires['user'] ?>" src="<?= $commentaires['avatar'] ?>" class="img-responsive img-circle">
+                 <div class="cadre-titre-commentaires"> 
+                    <span>posté par <strong><?= $commentaires['user'] ?></strong> Date : <?= date('d-m-Y', strtotime($commentaires['date'])); ?></span>
+                    <p><?= htmlspecialchars($commentaires['contenu']) ?></p>
+                 </div>
+                 <?php if(is_connect() == true): ?>                     
+                  <a class="button" href="<?= currentURL(); ?>#contenu">Répondre</a>
+               <?php endif; ?>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+<?php if(!empty($_SESSION['user'])): ?>
+    
+   <form id="comments-form" name="contact-form" method="post" action="index.php?action=commentaires&id=<?= $_GET['id'] ?>&message">
+
+            <label for="user" class="hidden">Utilisateur</label>
+            <input id="user" type="hidden" class="form-control" name="user" value="<?= $_SESSION['user']['login'] ?>">
+            
+            <label for="email" class="hidden">E-Mail :</label>
+            <input id="email" type="hidden" name="email" value="<?= $_SESSION['user']['email'] ?>">
+            
+            <label for="id_user" class="hidden">ID</label>
+            <input id="id_user" type="hidden" name="id_user" value="<?= $_SESSION['user']['id'] ?>">
+
+            <label for="contenu">Ecrire un message :</label>
+            <textarea id="contenu" name="contenu" required="required" class="form-control" rows="7" placeholder="Message"></textarea>
+
+            <button type="submit" class="btn">Envoyer</button>
+   </form>
+   
+    <?php else: ?>
+        <hr>
+    <p class="register">Vous pouvez laisser un message en vous inscrivant, cliquez ici pour <strong>
+    <a href="inscription">s'enregistrer</a> ou vous <a id="myBtn-2" href="<?= currentURL(); ?>#contenu">connecter</a></strong></p>
+    <?php endif; ?>
+
+<?php endif; ?>
+</section>
+

@@ -1,0 +1,34 @@
+<?php if(empty($listearticles)): ?>
+<script type='text/javascript'> document.location = 'index.php'; </script> 
+<?php else: ?>
+
+<section id="liste-articles" class="liste-articles-categorie">
+  <h2><span><?= htmlspecialchars($ref_categ['nom_categ']) ?></span></h2>
+  <p><?= htmlspecialchars($ref_categ['ref_description']) ?></p>
+      <?php foreach ($listearticles as $article) : ?>
+          <article class="bloc-article animated fadeInUp delay-0s">                  
+             <a href="<?= DisplayCategForArticle($article['id']) ?>/"><span class="tag-categ"><?= $article['nom_categ'] ?></span></a> 
+             <h3 class="post-title">
+             <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>"><?= $article['titre'] ?></a></h3>
+                               
+              <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>">
+              <img src="<?= $article['illustration'] ?>" alt="<?= $article['alt_illustration'] ?>"></a>
+
+              <p class="article-resume"><?= html_entity_decode($article['resume']) ?></p>
+         
+              <a href="<?= DisplayCategForArticle($article['id']) ?>/<?= $article['id'] ?>-<?= format_url($article['titre']) ?>" class="button">Lire la suite</a>
+
+              <div class="details-article">
+                  <span><i class="fas fa-pencil-alt"></i> Ecrit par <?= $article['nick'] ?></span>
+                  <span><i class="far fa-clock"></i>le <?= $article['date'] ?></span>
+                  <span>Commentaires ( <strong><?= $article['nb_commentaires'] ?></strong> )</span>
+              </div>
+          </article>
+      <?php endforeach; ?>       
+</section>
+
+<?php DisplayPaginationNoSQL($source,$total,$messagesParPage); ?>
+
+<div class="clear"></div>
+                
+<?php endif; ?>

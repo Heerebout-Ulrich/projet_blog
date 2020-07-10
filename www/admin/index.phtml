@@ -1,0 +1,64 @@
+<?php if(is_admin() == false): ?>
+<?php header("location:index.php?action=login_admin")?>  
+<?php endif; ?>
+
+<section id="panneau-administration">
+	<h2><i class="fas fa-users-cog"></i> Panneau d'administration</h2>
+	<ul class="">
+		<li class="bouton_admin">
+			<a href="index.php?action=ajouter_article&add">
+				<i class="fas fa-plus-square animated bounce delay-2s"></i> Creer un article
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_articles">
+				<i class="fas fa-edit animated bounce delay-2s"></i></i> Modifier un article
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_categories">
+				<i class="fas fa-list animated bounce delay-2s"></i></i> Gestion des Catagories
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_commentaires_standby">
+				<i class="fas fa-comments"></i></i> Gestion des Commentaires
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_membres">
+				<i class="fas fa-users animated bounce delay-2s"></i>Liste des utilisateurs
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=ajouter_page&add">
+				<i class="fas fa-plus-square animated bounce delay-2s"></i>Ajouter une page
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_pages_admin">
+				<i class="fas fa-users animated bounce delay-2s"></i>Gestions des pages
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=add_image_admin">
+				<i class="fas fa-plus-square animated bounce delay-2s"></i>Ajouter Images
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gallery_admin">
+				<i class="fas fa-images animated bounce delay-2s"></i>Gestions des images
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=gestion_membres">
+				<i class="fas fa-users animated bounce delay-2s"></i>Liste des Administrateurs
+			</a>
+		</li>
+		<li class="bouton_admin">
+			<a href="index.php?action=config_general">
+				<i class="fas fa-cogs animated bounce delay-2s"></i></i>Options Générales
+			</a>
+		</li>
+	</ul>
+</section>
